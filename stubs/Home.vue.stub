@@ -1,0 +1,222 @@
+<template>
+  <div class="wrap">
+
+    <div class="badge-row">
+      <span class="badge badge-laravel">Laravel</span>
+      <span class="badge badge-vue">Vue 3</span>
+      <span class="badge badge-inertia">Inertia.js</span>
+      <span class="version-pill">v1.0.0</span>
+    </div>
+
+    <h1 class="hero-title">Laravel Inertia<br>Vue Starter</h1>
+    <p class="hero-sub">The fastest way to wire up Inertia.js with Vue 3 in any Laravel project — one command, zero headaches.</p>
+
+    <p class="section-label">What's included</p>
+    <div class="features-grid">
+      <div class="feature-item" v-for="f in features" :key="f">
+        <span class="feature-dot"></span>{{ f }}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="section-label">Installation</p>
+    <div class="code-block">
+      <div class="code-line">
+        <span class="prompt">$</span>
+        <span><span class="cmd-composer">composer</span> <span class="arg-muted">require</span> <span class="arg">dilansabah/laravel-inertia-vue</span></span>
+      </div>
+      <div class="code-line">
+        <span class="prompt">$</span>
+        <span><span class="cmd-artisan">php artisan</span> <span class="arg">inertia-vue:install</span></span>
+      </div>
+      <div class="code-line">
+        <span class="prompt">$</span>
+        <span><span class="cmd-npm">npm</span> <span class="arg-muted">run</span> <span class="arg">dev</span></span>
+      </div>
+    </div>
+
+    <div class="actions-row">
+      <a href="https://dilansabah.debugcode.site/" target="_blank" class="btn btn-primary">
+        Visit Portfolio &rarr;
+      </a>
+    </div>
+
+    <div class="footer-row">
+      <span class="footer-name">Dilan Sabah</span>
+      <span class="badge badge-laravel" style="font-size: 10px;">MIT</span>
+    </div>
+
+  </div>
+</template>
+
+<script setup>
+const features = [
+  'Inertia.js Laravel adapter',
+  'Vue 3 scaffolding',
+  'Auto npm install',
+  'Safe file handling',
+  'Overwrite protection',
+  'Setup guide for skipped files',
+]
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap');
+
+.wrap {
+  font-family: 'Syne', sans-serif;
+  padding: 2rem 1rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.badge-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-laravel { background: #FF2D20; color: #fff; }
+.badge-vue     { background: #42b883; color: #fff; }
+.badge-inertia { background: #9553e9; color: #fff; }
+
+.version-pill {
+  font-size: 11px;
+  background: #f3f4f6;
+  border: 0.5px solid #e5e7eb;
+  color: #6b7280;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.hero-title {
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.1;
+  margin: 0 0 12px;
+  letter-spacing: -0.03em;
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 2rem;
+  line-height: 1.6;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.feature-item {
+  background: #f9fafb;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #4b5563;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.feature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9553e9;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.divider {
+  height: 0.5px;
+  background: #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: #0f0f10;
+  color: #e2e2e2;
+  border-radius: 10px;
+  padding: 18px 20px;
+  line-height: 2;
+  border: 0.5px solid rgba(255,255,255,0.07);
+}
+
+.code-line { display: flex; align-items: center; gap: 12px; }
+
+.prompt       { color: #9553e9; user-select: none; }
+.cmd-composer { color: #ff9f43; }
+.cmd-artisan  { color: #54a0ff; }
+.cmd-npm      { color: #42b883; }
+.arg          { color: #e2e2e2; }
+.arg-muted    { color: #555; }
+
+.actions-row {
+  margin-top: 1.5rem;
+}
+
+.btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn:hover  { opacity: 0.85; transform: translateY(-1px); }
+.btn:active { transform: scale(0.97); }
+
+.btn-primary { background: #9553e9; color: #fff; }
+
+.footer-row {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 0.5px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+</style>
