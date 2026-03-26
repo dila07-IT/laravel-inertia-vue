@@ -20,6 +20,7 @@ class InstallCommand extends Command
         $this->installComposerPackages();
         $this->installNpmPackages();
         $this->copyStubs();
+        $this->registerMiddleware();
         $this->addRouteComment();
         $this->generateSetupGuide();
 
@@ -68,32 +69,74 @@ class InstallCommand extends Command
     }
 
     protected function copyStubs(): void
-{
-    $files = new Filesystem();
+    {
+        $files = new Filesystem();
 
-    $stubs = [
-        'app.js.stub' => [
-            'target' => resource_path('js/app.js'),
-            'ask' => true,
-        ],
-        'Home.vue.stub' => [
-            'target' => resource_path('js/Pages/Home.vue'),
-            'ask' => false,
-        ],
-        'app.blade.php.stub' => [
-            'target' => resource_path('views/app.blade.php'),
-            'ask' => false,
-        ],
-        'vite.config.js.stub' => [
-            'target' => base_path('vite.config.js'),
-            'ask' => true,
-        ],
-    ];
+        $stubs = [
+            'app.js.stub' => [
+                'target' => resource_path('js/app.js'),
+                'ask' => true,
+            ],
+            'Home.vue.stub' => [
+                'target' => resource_path('js/Pages/Home.vue'),
+                'ask' => false,
+            ],
+            'app.blade.php.stub' => [
+                'target' => resource_path('views/app.blade.php'),
+                'ask' => false,
+            ],
+            'vite.config.js.stub' => [
+                'target' => base_path('vite.config.js'),
+                'ask' => true,
+            ],
+            'HandleInertiaRequests.php.stub' => [
+                'target' => app_path('Http/Middleware/HandleInertiaRequests.php'),
+                'ask' => false,
+            ],
+        ];
 
-    foreach ($stubs as $stub => $config) {
-        $this->copyFile($files, $stub, $config['target'], $config['ask']);
+        foreach ($stubs as $stub => $config) {
+            $this->copyFile($files, $stub, $config['target'], $config['ask']);
+        }
     }
-}
+
+    protected function registerMiddleware(): void
+    {
+        $path = base_path('bootstrap/app.php');
+
+        if (! file_exists($path)) {
+            $this->error("bootstrap/app.php not found");
+            return;
+        }
+
+        $content = file_get_contents($path);
+
+        if (str_contains($content, 'HandleInertiaRequests')) {
+            $this->warn('Inertia middleware already registered.');
+            return;
+        }
+
+        $pattern = '/(->withMiddleware\(\s*function\s*\([^\)]*\)\s*(?::\s*[^\{]+)?\{)/m';
+
+        if (! preg_match($pattern, $content)) {
+            $this->warn('Middleware section not found.');
+            return;
+        }
+
+        $content = preg_replace_callback(
+            $pattern,
+            function (array $matches): string {
+                return $matches[1]
+                    . "\n        \$middleware->web(append: [\n            \\App\\Http\\Middleware\\HandleInertiaRequests::class,\n        ]);";
+            },
+            $content,
+            1
+        );
+
+        file_put_contents($path, $content);
+
+        $this->info('Inertia middleware registered.');
+    }
 
     protected function addRouteComment(): void
     {
